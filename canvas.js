@@ -51,6 +51,8 @@ PhotoBooth.Canvas = Backbone.View.extend({
   },
 
   paint: function(e) {
+    e.preventDefault();
+
     if (!this.isPainting) {
       return;
     }
