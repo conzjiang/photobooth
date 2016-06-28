@@ -14,13 +14,23 @@ PhotoBooth.Canvas = Backbone.View.extend({
     this.context = this.el.getContext('2d');
     this.color = options.color;
     this.isPainting = false;
+
+    this.listenTo(this.model, 'change:image', this.updateCanvas);
+  },
+
+  updateCanvas: function(result) {
+    this.context.drawImage(this.model.get('image'), 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
   },
 
   events: {
     mousedown: 'startPainting',
+    touchstart: 'startPainting',
+    touchmove: 'paint',
     mousemove: 'paint',
-    mouseleave: 'stopPainting',
+    touchend: 'stopPainting',
+    touchcancel: 'stopPainting',
     mouseup: 'stopPainting',
+    mouseleave: 'stopPainting',
   },
 
   startPainting: function(e) {
@@ -52,9 +62,6 @@ PhotoBooth.Canvas = Backbone.View.extend({
   },
 
   draw: function() {
-    this.clearSurface();
-
-    this.context.drawImage(this.model.get('image'), 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     this.context.lineJoin = LINE_STYLE;
     this.context.lineWidth = LINE_WIDTH;
 
@@ -75,10 +82,6 @@ PhotoBooth.Canvas = Backbone.View.extend({
     this.context.closePath();
     this.context.strokeStyle = coord.get('color');
     this.context.stroke();
-  },
-
-  clearSurface: function() {
-    this.context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
   },
 
   stopPainting: function() {
