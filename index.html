@@ -1,0 +1,62 @@
+<html>
+<head>
+  <script src="jquery-3.0.0.js"></script>
+  <script type="text/javascript" src="underscore.js"></script>
+  <script type="text/javascript" src="backbone.js"></script>
+  <script type="text/javascript" src="gui.js"></script>
+  <script type="text/javascript" src="canvas.js"></script>
+  <script type="text/javascript" src="photo_input.js"></script>
+  <style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+  }
+
+  .tiles {
+    list-style: none;
+    width: 110px;
+    float: left;
+  }
+
+  .clearfix:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+
+  .tiles > li {
+    float: left;
+    width: 45px;
+    height: 45px;
+    margin: 5px;
+  }
+
+  canvas {
+    float: left;
+  }
+  </style>
+</head>
+<body>
+
+<section class="container clearfix">
+  <canvas id="canvas"></canvas>
+  <ul id="gui" class="tiles clearfix">
+
+  </ul>
+
+  <input type="file" accept="image/*;capture=camera" id="photo-input">
+</section>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    const model = new Backbone.Model({ color: PhotoBooth.COLORS.rausch });
+    new PhotoBooth.GUI({ model: model, el: '#gui' }).render();
+    new PhotoBooth.Canvas({ model: model, el: '#canvas', collection: new Backbone.Collection() });
+    new PhotoBooth.PhotoInput({ model: model, el: '#photo-input' });
+  });
+</script>
+
+</body>
+</html>
