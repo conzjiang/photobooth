@@ -22,7 +22,7 @@ PhotoBooth.GUI = Backbone.View.extend({
   render: function() {
     this.$el.empty();
 
-    for (let color in PhotoBooth.COLORS) {
+    for (var color in PhotoBooth.COLORS) {
       this.$el.append('<li style="background:' + PhotoBooth.COLORS[color] + ';" data-color="' + color + '"></li>');
     }
 
